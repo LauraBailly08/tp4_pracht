@@ -1,0 +1,122 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Étape 3 - Penguin avec Filtre">
+  <div class="space-y-6">
+    <div class="border-b border-slate-200 pb-4">
+      <h1 class="text-3xl font-bold text-slate-800">Étape 3 : Penguin avec Filtre Espèce</h1>
+      <p class="text-slate-600 mt-1">
+        Filtrage dynamique des données du graphique en fonction du choix dans la liste déroulante (<code>&lt;select&gt;</code>).
+      </p>
+    </div>
+
+    <!-- Contrôle du filtre -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap items-center gap-4">
+      <label for="species" class="text-sm font-semibold text-slate-700">
+        Filtrer par espèce :
+      </label>
+      <select
+        name="species"
+        id="species"
+        class="border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+      >
+        <option value="">All species (Toutes les espèces)</option>
+        <option value="Adelie">Adelie</option>
+        <option value="Chinstrap">Chinstrap</option>
+        <option value="Gentoo">Gentoo</option>
+      </select>
+      <span id="counter" class="text-xs font-medium text-slate-500 ml-auto bg-slate-100 px-3 py-1.5 rounded-full">
+        Chargement...
+      </span>
+    </div>
+
+    <!-- Zone d'affichage du graphique -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+      <h2 class="text-lg font-semibold text-slate-700 mb-4">Graphique interactif :</h2>
+      <div id="penguin-filter-plot" class="flex justify-center p-4 bg-slate-50 rounded-lg overflow-x-auto min-h-[360px] items-center"></div>
+    </div>
+
+    <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-sm text-emerald-900 space-y-1">
+      <p class="font-semibold">💡 Démarche appliquée :</p>
+      <ol class="list-decimal list-inside space-y-1">
+        <li><strong>Lire l'entrée :</strong> récupération de la valeur du select (<code>selectSpecies.value</code>).</li>
+        <li><strong>Calculer le résultat :</strong> filtrage du tableau JavaScript (<code>penguins.filter(...)</code>).</li>
+        <li><strong>Vider l'affichage précédent :</strong> réinitialisation avec <code>plotDiv.innerHTML = ""</code>.</li>
+        <li><strong>Afficher le nouveau graphique :</strong> création avec <code>Plot.plot()</code> et insertion avec <code>plotDiv.append(plot)</code>.</li>
+        <li><strong>Écouteur d'événement :</strong> <code>selectSpecies.addEventListener("change", renderPlot)</code> et appel initial au chargement.</li>
+      </ol>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Importe la librairie Plot d'ObservableHQ
+  import * as Plot from "@observablehq/plot";
+  // Importe les données des manchots depuis un fichier JSON
+  import penguins from "../assets/penguins.json";
+
+  // Récupère l'élément select pour choisir l'espèce
+  const selectSpecies = document.querySelector("#species") as HTMLSelectElement;
+  const plotDiv = document.querySelector("#penguin-filter-plot") as HTMLDivElement;
+  const counterSpan = document.querySelector("#counter") as HTMLSpanElement;
+
+  // Fonction pour afficher le graphique
+  function renderPlot() {
+    // Récupère l'espèce sélectionnée
+    const species = selectSpecies.value;
+
+    // Filtre les données selon l'espèce sélectionnée
+    const filteredPenguins = species
+      ? penguins.filter((p) => p.species === species)
+      : penguins;
+
+    // Mise à jour du compteur
+    if (counterSpan) {
+      counterSpan.textContent = `${filteredPenguins.length} manchots affichés sur ${penguins.length}`;
+    }
+
+    // Sélectionne la div où le graphique sera affiché & vide le contenu précédent
+    if (plotDiv) {
+      plotDiv.innerHTML = "";
+
+      // Crée le graphique avec Plot
+      const plot = Plot.plot({
+        title: species ? `Espèce : ${species}` : "Toutes les espèces de manchots",
+        subtitle: "Longueur vs Profondeur du culmen (bec)",
+        grid: true,
+        color: {
+          legend: true,
+          domain: ["Adelie", "Chinstrap", "Gentoo"],
+        },
+        x: {
+          label: "Longueur du bec (mm) →",
+          domain: [30, 60], // Domaine fixe pour faciliter la comparaison visuelle
+        },
+        y: {
+          label: "↑ Profondeur du bec (mm)",
+          domain: [12, 23], // Domaine fixe
+        },
+        marks: [
+          // Ajoute les points du graphique, filtrés selon l'espèce choisie
+          Plot.dot(filteredPenguins, {
+            x: "culmen_length_mm", // Axe X : longueur du bec
+            y: "culmen_depth_mm", // Axe Y : profondeur du bec
+            stroke: "species", // Couleur selon l'espèce
+            tip: true,
+          }),
+        ],
+      });
+
+      // Ajoute le graphique à la div
+      plotDiv.append(plot);
+    }
+  }
+
+  // Ajoute un écouteur d'événement pour le changement d'espèce (appel 'renderPlot')
+  selectSpecies.addEventListener("change", renderPlot);
+
+  // Affiche le graphique au chargement de la page
+  renderPlot();
+</script>
+
