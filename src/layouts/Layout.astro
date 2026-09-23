@@ -1,26 +1,76 @@
 ---
 import "../styles/global.css";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "TP Plot Astro" } = Astro.props;
+
+const navLinks = [
+  { href: "/", label: "Accueil" },
+  { href: "/simple", label: "1. Simple" },
+  { href: "/simple-penguin", label: "2. Simple Penguin" },
+  { href: "/penguin-filtre", label: "3. Penguin Filtre" },
+  { href: "/penguin-multi-filtres", label: "4. Multi-Filtres & Séries" },
+  { href: "/dataset-chaises", label: "5. Dataset Chaises" },
+  { href: "/dataset-consoles-3ds", label: "6. Dataset Consoles & 3DS" },
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fr" class="h-full bg-slate-50 text-slate-900">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <title>{title}</title>
   </head>
-  <body>
-    <slot />
+  <body class="min-h-full flex flex-col font-sans">
+    <header class="bg-indigo-900 text-white shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center space-x-3">
+            <a href="/" class="text-xl font-bold tracking-tight text-white hover:text-indigo-200">
+              🐧 TP4 Astro & Plot
+            </a>
+          </div>
+          <nav class="hidden md:flex space-x-1 lg:space-x-2">
+            {
+              navLinks.map((link) => (
+                <a
+                  href={link.href}
+                  class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800 transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))
+            }
+          </nav>
+        </div>
+      </div>
+      <!-- Mobile navigation menu -->
+      <div class="md:hidden px-2 pt-2 pb-3 space-y-1 bg-indigo-950 flex flex-wrap gap-1">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="px-2 py-1 rounded text-xs font-medium bg-indigo-800 text-white hover:bg-indigo-700"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+      <slot />
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+      TP Visualisation de données côté client avec Astro, Tailwind CSS & Observable Plot
+    </footer>
   </body>
 </html>
-
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>

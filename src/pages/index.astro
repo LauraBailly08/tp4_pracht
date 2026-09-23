@@ -1,21 +1,96 @@
 ---
-import PlotFigure from "../components/PlotFigure.astro";
 import Layout from "../layouts/Layout.astro";
-import * as Plot from "@observablehq/plot";
-import penguins from "../assets/penguins.json";
 ---
 
-<Layout>
-  <h1 class="text-2xl">Test Astro et Plot (Observablehq)</h1>
-  <PlotFigure
-    options={{
-      marks: [
-        Plot.dot(penguins, {
-          x: "culmen_length_mm",
-          y: "culmen_depth_mm",
-          stroke: "species",
-        }),
-      ],
-    }}
-  />
+<Layout title="TP4 - Visualisation de données avec Observable Plot & Astro">
+  <div class="max-w-4xl mx-auto space-y-8 py-4">
+    <div class="text-center space-y-3">
+      <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">
+        TP 4 : Visualisation de Données Côté Client
+      </h1>
+      <p class="text-lg text-slate-600">
+        Prise en main d'Astro, Tailwind CSS et Observable Plot avec interactivité dynamique côté client.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <a
+        href="/simple"
+        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+      >
+        <div class="flex items-center space-x-3 mb-2">
+          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">1</span>
+          <h2 class="text-xl font-bold text-slate-800">Graphique Simple</h2>
+        </div>
+        <p class="text-sm text-slate-600">
+          Rendu côté client d'un histogramme aléatoire avec import npm d'Observable Plot.
+        </p>
+      </a>
+
+      <a
+        href="/simple-penguin"
+        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+      >
+        <div class="flex items-center space-x-3 mb-2">
+          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">2</span>
+          <h2 class="text-xl font-bold text-slate-800">Simple Penguin</h2>
+        </div>
+        <p class="text-sm text-slate-600">
+          Affichage côté client du nuage de points des manchots (Palmers Penguins JSON).
+        </p>
+      </a>
+
+      <a
+        href="/penguin-filtre"
+        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+      >
+        <div class="flex items-center space-x-3 mb-2">
+          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">3</span>
+          <h2 class="text-xl font-bold text-slate-800">Penguin avec 1 Filtre</h2>
+        </div>
+        <p class="text-sm text-slate-600">
+          Filtrage interactif par espèce avec mise à jour dynamique du graphique au changement.
+        </p>
+      </a>
+
+      <a
+        href="/penguin-multi-filtres"
+        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+      >
+        <div class="flex items-center space-x-3 mb-2">
+          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">4</span>
+          <h2 class="text-xl font-bold text-slate-800">Multi-Filtres & Séries</h2>
+        </div>
+        <p class="text-sm text-slate-600">
+          Filtres combinés (espèce, île, sexe) et graphiques à facettes / multi-séries.
+        </p>
+      </a>
+
+      <a
+        href="/dataset-chaises"
+        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+      >
+        <div class="flex items-center space-x-3 mb-2">
+          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">5</span>
+          <h2 class="text-xl font-bold text-slate-800">Dataset Chaises de bureau</h2>
+        </div>
+        <p class="text-sm text-slate-600">
+          Visualisation et exploration de données avec filtres sur le dataset Office Chairs.
+        </p>
+      </a>
+
+      <a
+        href="/dataset-consoles-3ds"
+        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+      >
+        <div class="flex items-center space-x-3 mb-2">
+          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">6</span>
+          <h2 class="text-xl font-bold text-slate-800">Dataset Consoles & Jeux 3DS</h2>
+        </div>
+        <p class="text-sm text-slate-600">
+          Analyses graphiques interactives (ventes, notes, genres) sur les consoles et jeux 3DS.
+        </p>
+      </a>
+    </div>
+  </div>
 </Layout>
