@@ -1,95 +1,148 @@
----
+﻿---
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="TP4 - Visualisation de données avec Observable Plot & Astro">
-  <div class="max-w-4xl mx-auto space-y-8 py-4">
-    <div class="text-center space-y-3">
-      <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">
-        TP 4 : Visualisation de Données Côté Client
+<Layout title="Accueil • TP4 Visualisation Observable Plot">
+  <div class="max-w-5xl mx-auto space-y-8 py-2">
+    <!-- Hero Header -->
+    <div class="text-center space-y-3 bg-white/70 backdrop-blur-sm border border-sky-100 p-8 rounded-3xl shadow-xs">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100/70 border border-pink-200 text-xs font-semibold text-rose-700">
+        TP Visualisation de Donnees
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
+        Graphiques Interactifs <span class="bg-gradient-to-r from-sky-600 to-rose-500 bg-clip-text text-transparent">Cote Client</span>
       </h1>
-      <p class="text-lg text-slate-600">
-        Prise en main d'Astro, Tailwind CSS et Observable Plot avec interactivité dynamique côté client.
+      <p class="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base">
+        Generation dynamique de graphiques dans le navigateur avec <strong>Observable Plot</strong>, propulse par <strong>Astro</strong> et stylise avec <strong>DaisyUI</strong>.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Grille des cartes -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Carte 1 -->
       <a
         href="/simple"
-        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+        class="card bg-white/90 border border-sky-100 hover:border-sky-300 hover:shadow-md transition-all duration-200 group rounded-2xl"
       >
-        <div class="flex items-center space-x-3 mb-2">
-          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">1</span>
-          <h2 class="text-xl font-bold text-slate-800">Graphique Simple</h2>
+        <div class="card-body p-5">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm">
+              1
+            </span>
+            <span class="badge badge-soft bg-sky-50 text-sky-600 text-xs border-sky-100">Base</span>
+          </div>
+          <h2 class="card-title text-base font-bold text-slate-800 group-hover:text-sky-700 transition mt-2">
+            Graphique Simple
+          </h2>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Exemple officiel rendu 100% cote client via script Astro avec Observable Plot.
+          </p>
         </div>
-        <p class="text-sm text-slate-600">
-          Rendu côté client d'un histogramme aléatoire avec import npm d'Observable Plot.
-        </p>
       </a>
 
+      <!-- Carte 2 -->
       <a
         href="/simple-penguin"
-        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+        class="card bg-white/90 border border-sky-100 hover:border-sky-300 hover:shadow-md transition-all duration-200 group rounded-2xl"
       >
-        <div class="flex items-center space-x-3 mb-2">
-          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">2</span>
-          <h2 class="text-xl font-bold text-slate-800">Simple Penguin</h2>
+        <div class="card-body p-5">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm">
+              2
+            </span>
+            <span class="badge badge-soft bg-sky-50 text-sky-600 text-xs border-sky-100">JSON Data</span>
+          </div>
+          <h2 class="card-title text-base font-bold text-slate-800 group-hover:text-sky-700 transition mt-2">
+            Simple Penguin
+          </h2>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Nuage de points genere avec les donnees Palmer Penguins importees cote client.
+          </p>
         </div>
-        <p class="text-sm text-slate-600">
-          Affichage côté client du nuage de points des manchots (Palmers Penguins JSON).
-        </p>
       </a>
 
+      <!-- Carte 3 -->
       <a
         href="/penguin-filtre"
-        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+        class="card bg-white/90 border border-pink-100 hover:border-pink-300 hover:shadow-md transition-all duration-200 group rounded-2xl"
       >
-        <div class="flex items-center space-x-3 mb-2">
-          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">3</span>
-          <h2 class="text-xl font-bold text-slate-800">Penguin avec 1 Filtre</h2>
+        <div class="card-body p-5">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-xl bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-sm">
+              3
+            </span>
+            <span class="badge badge-soft bg-pink-50 text-pink-600 text-xs border-pink-100">1 Filtre</span>
+          </div>
+          <h2 class="card-title text-base font-bold text-slate-800 group-hover:text-rose-600 transition mt-2">
+            Filtre Espece Manchots
+          </h2>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Filtrage dynamique avec selecteur &lt;select&gt; et actualisation au changement.
+          </p>
         </div>
-        <p class="text-sm text-slate-600">
-          Filtrage interactif par espèce avec mise à jour dynamique du graphique au changement.
-        </p>
       </a>
 
+      <!-- Carte 4 -->
       <a
         href="/penguin-multi-filtres"
-        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+        class="card bg-white/90 border border-pink-100 hover:border-pink-300 hover:shadow-md transition-all duration-200 group rounded-2xl"
       >
-        <div class="flex items-center space-x-3 mb-2">
-          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">4</span>
-          <h2 class="text-xl font-bold text-slate-800">Multi-Filtres & Séries</h2>
+        <div class="card-body p-5">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-xl bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-sm">
+              4
+            </span>
+            <span class="badge badge-soft bg-pink-50 text-pink-600 text-xs border-pink-100">Multi-Filtres</span>
+          </div>
+          <h2 class="card-title text-base font-bold text-slate-800 group-hover:text-rose-600 transition mt-2">
+            Manchots Multi-Filtres & Series
+          </h2>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Filtres combines (espece, ile, sexe) avec vues a facettes et nuage de points.
+          </p>
         </div>
-        <p class="text-sm text-slate-600">
-          Filtres combinés (espèce, île, sexe) et graphiques à facettes / multi-séries.
-        </p>
       </a>
 
+      <!-- Carte 5 -->
       <a
         href="/dataset-chaises"
-        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+        class="card bg-white/90 border border-sky-100 hover:border-rose-300 hover:shadow-md transition-all duration-200 group rounded-2xl"
       >
-        <div class="flex items-center space-x-3 mb-2">
-          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">5</span>
-          <h2 class="text-xl font-bold text-slate-800">Dataset Chaises de bureau</h2>
+        <div class="card-body p-5">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-100 to-pink-100 text-slate-700 flex items-center justify-center font-bold text-sm">
+              5
+            </span>
+            <span class="badge badge-soft bg-sky-50 text-slate-600 text-xs border-sky-100">Dataset</span>
+          </div>
+          <h2 class="card-title text-base font-bold text-slate-800 group-hover:text-rose-600 transition mt-2">
+            Dataset Chaises de Bureau
+          </h2>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Filtrage simple et clair par categorie et materiau avec nuage de points interactif.
+          </p>
         </div>
-        <p class="text-sm text-slate-600">
-          Visualisation et exploration de données avec filtres sur le dataset Office Chairs.
-        </p>
       </a>
 
+      <!-- Carte 6 -->
       <a
         href="/dataset-consoles-3ds"
-        class="block p-6 bg-white rounded-xl border border-slate-200 hover:border-indigo-500 hover:shadow-md transition duration-200"
+        class="card bg-white/90 border border-sky-100 hover:border-rose-300 hover:shadow-md transition-all duration-200 group rounded-2xl"
       >
-        <div class="flex items-center space-x-3 mb-2">
-          <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg font-bold">6</span>
-          <h2 class="text-xl font-bold text-slate-800">Dataset Consoles & Jeux 3DS</h2>
+        <div class="card-body p-5">
+          <div class="flex items-center justify-between">
+            <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-100 to-pink-100 text-slate-700 flex items-center justify-center font-bold text-sm">
+              6
+            </span>
+            <span class="badge badge-soft bg-pink-50 text-slate-600 text-xs border-pink-100">Dataset</span>
+          </div>
+          <h2 class="card-title text-base font-bold text-slate-800 group-hover:text-rose-600 transition mt-2">
+            Dataset Consoles & Jeux 3DS
+          </h2>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            Filtrage simple par genre et editeur avec visualisations des ventes mondiales.
+          </p>
         </div>
-        <p class="text-sm text-slate-600">
-          Analyses graphiques interactives (ventes, notes, genres) sur les consoles et jeux 3DS.
-        </p>
       </a>
     </div>
   </div>

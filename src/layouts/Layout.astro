@@ -1,4 +1,4 @@
----
+﻿---
 import "../styles/global.css";
 
 interface Props {
@@ -11,15 +11,15 @@ const navLinks = [
   { href: "/", label: "Accueil" },
   { href: "/simple", label: "1. Simple" },
   { href: "/simple-penguin", label: "2. Simple Penguin" },
-  { href: "/penguin-filtre", label: "3. Penguin Filtre" },
-  { href: "/penguin-multi-filtres", label: "4. Multi-Filtres & Séries" },
-  { href: "/dataset-chaises", label: "5. Dataset Chaises" },
-  { href: "/dataset-consoles-3ds", label: "6. Dataset Consoles & 3DS" },
+  { href: "/penguin-filtre", label: "3. Filtre Manchots" },
+  { href: "/penguin-multi-filtres", label: "4. Multi-Filtres" },
+  { href: "/dataset-chaises", label: "5. Chaises" },
+  { href: "/dataset-consoles-3ds", label: "6. Consoles 3DS" },
 ];
 ---
 
 <!doctype html>
-<html lang="fr" class="h-full bg-slate-50 text-slate-900">
+<html lang="fr" data-theme="cupcake" class="h-full bg-gradient-to-br from-sky-50 via-pink-50/40 to-slate-50 text-slate-800">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,36 +27,55 @@ const navLinks = [
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="min-h-full flex flex-col font-sans">
-    <header class="bg-indigo-900 text-white shadow-md">
+  <body class="min-h-full flex flex-col font-sans selection:bg-rose-200 selection:text-slate-900">
+    <!-- Navbar DaisyUI avec DA pastel bleu & rose -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-sky-100/80 shadow-xs">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          <div class="flex items-center space-x-3">
-            <a href="/" class="text-xl font-bold tracking-tight text-white hover:text-indigo-200">
-              🐧 TP4 Astro & Plot
+        <div class="navbar min-h-16 px-0">
+          <div class="navbar-start">
+            <a href="/" class="flex items-center gap-2 text-base sm:text-lg font-bold tracking-tight text-slate-800 hover:opacity-80 transition">
+              <span class="p-1.5 rounded-xl bg-gradient-to-tr from-sky-200 to-rose-200 shadow-xs">🐧</span>
+              <span class="bg-gradient-to-r from-sky-700 to-rose-600 bg-clip-text text-transparent">
+                TP4 • Observable Plot
+              </span>
             </a>
           </div>
-          <nav class="hidden md:flex space-x-1 lg:space-x-2">
-            {
-              navLinks.map((link) => (
-                <a
-                  href={link.href}
-                  class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-800 transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))
-            }
-          </nav>
+
+          <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal gap-1 p-0">
+              {
+                navLinks.map((link) => (
+                  <li>
+                    <a
+                      href={link.href}
+                      class="text-xs font-semibold px-3 py-2 rounded-xl text-slate-600 hover:text-rose-600 hover:bg-rose-50/80 transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="navbar-end flex gap-2">
+            <span class="badge badge-soft bg-sky-100 text-sky-800 border-sky-200 text-xs font-medium">
+              Client-side
+            </span>
+            <span class="badge badge-soft bg-pink-100 text-pink-800 border-pink-200 text-xs font-medium">
+              Astro + DaisyUI
+            </span>
+          </div>
         </div>
       </div>
-      <!-- Mobile navigation menu -->
-      <div class="md:hidden px-2 pt-2 pb-3 space-y-1 bg-indigo-950 flex flex-wrap gap-1">
+
+      <!-- Mobile nav bar links -->
+      <div class="lg:hidden px-4 pb-3 flex flex-wrap gap-1.5 border-t border-sky-50 pt-2 bg-white/90">
         {
           navLinks.map((link) => (
             <a
               href={link.href}
-              class="px-2 py-1 rounded text-xs font-medium bg-indigo-800 text-white hover:bg-indigo-700"
+              class="px-2.5 py-1 rounded-lg text-xs font-medium bg-sky-50 text-slate-700 hover:bg-rose-100 hover:text-rose-800 transition"
             >
               {link.label}
             </a>
@@ -65,12 +84,17 @@ const navLinks = [
       </div>
     </header>
 
+    <!-- Contenu Principal -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
       <slot />
     </main>
 
-    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
-      TP Visualisation de données côté client avec Astro, Tailwind CSS & Observable Plot
+    <!-- Footer epure -->
+    <footer class="mt-auto py-6 border-t border-sky-100 bg-white/60 text-center text-xs text-slate-500">
+      <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p>TP Rendu de visualisations cote client • Astro, Observable Plot & DaisyUI</p>
+        <p class="text-slate-400">Pastel Blue & Rose Theme</p>
+      </div>
     </footer>
   </body>
 </html>

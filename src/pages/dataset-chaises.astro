@@ -1,29 +1,37 @@
----
+﻿---
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Étape 5 - Dataset Chaises de Bureau">
-  <div class="space-y-6">
-    <div class="border-b border-slate-200 pb-4">
-      <h1 class="text-3xl font-bold text-slate-800">Étape 5 : Dataset Chaises de Bureau (Office Chairs)</h1>
-      <p class="text-slate-600 mt-1">
-        Exploration et analyse comparative de modèles de chaises ergonomiques, gaming et de bureau.
-      </p>
+<Layout title="Chaises de Bureau • TP4">
+  <div class="space-y-6 max-w-5xl mx-auto">
+    <!-- En-tete de la page -->
+    <div class="bg-white/80 backdrop-blur-sm border border-sky-100 p-6 rounded-2xl shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="inline-block px-2.5 py-0.5 bg-sky-100/70 text-sky-800 text-xs font-semibold rounded-md mb-1 border border-sky-200">
+          Dataset 1 • Mobilier
+        </div>
+        <h1 class="text-2xl font-bold text-slate-800">Chaises de Bureau</h1>
+        <p class="text-xs sm:text-sm text-slate-500">
+          Analyse interactive des modeles de chaises ergonomiques, gaming et de bureau.
+        </p>
+      </div>
+      <div id="chairs-counter" class="badge badge-soft bg-pink-100 text-rose-800 border-pink-200 text-xs font-medium px-3 py-2">
+        Chargement...
+      </div>
     </div>
 
-    <!-- Filtres interactifs -->
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Filtre Catégorie -->
+    <!-- Controles simples DaisyUI -->
+    <div class="card bg-white/90 border border-sky-100 shadow-xs rounded-2xl p-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label for="filter-category" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
-            Catégorie
+          <label for="select-category" class="block text-xs font-semibold text-slate-600 mb-1.5">
+            Filtrer par Categorie :
           </label>
           <select
-            id="filter-category"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            id="select-category"
+            class="select select-bordered select-sm w-full bg-white border-sky-200 focus:border-rose-400 focus:outline-none rounded-xl"
           >
-            <option value="">Toutes les catégories</option>
+            <option value="">Toutes les categories</option>
             <option value="Ergonomique">Ergonomique</option>
             <option value="Gaming">Gaming</option>
             <option value="Standard">Standard</option>
@@ -32,102 +40,32 @@ import Layout from "../layouts/Layout.astro";
           </select>
         </div>
 
-        <!-- Filtre Matériau -->
         <div>
-          <label for="filter-material" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
-            Matériau
+          <label for="select-material" class="block text-xs font-semibold text-slate-600 mb-1.5">
+            Filtrer par Materiau :
           </label>
           <select
-            id="filter-material"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            id="select-material"
+            class="select select-bordered select-sm w-full bg-white border-sky-200 focus:border-rose-400 focus:outline-none rounded-xl"
           >
-            <option value="">Tous les matériaux</option>
-            <option value="Mesh">Mesh / Maille respirante</option>
+            <option value="">Tous les materiaux</option>
+            <option value="Mesh">Mesh (Maille)</option>
             <option value="Tissu">Tissu</option>
-            <option value="Cuir">Cuir véritable</option>
+            <option value="Cuir">Cuir veritable</option>
             <option value="Similicuir">Similicuir</option>
-            <option value="TPE">TPE élastomère</option>
+            <option value="TPE">TPE</option>
           </select>
-        </div>
-
-        <!-- Filtre Support Lombaire -->
-        <div>
-          <label for="filter-lumbar" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
-            Support lombaire
-          </label>
-          <select
-            id="filter-lumbar"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-          >
-            <option value="">Tous les types</option>
-            <option value="Ajustable">Ajustable</option>
-            <option value="Auto-ajustable">Auto-ajustable</option>
-            <option value="Fixe">Fixe</option>
-          </select>
-        </div>
-
-        <!-- Filtre Prix Max (Slider) -->
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <label for="filter-maxprice" class="text-xs font-semibold uppercase tracking-wider text-slate-600">
-              Budget max :
-            </label>
-            <span id="price-val" class="text-xs font-bold text-indigo-700">1800 €</span>
-          </div>
-          <input
-            type="range"
-            id="filter-maxprice"
-            min="150"
-            max="1800"
-            step="50"
-            value="1800"
-            class="w-full accent-indigo-600 cursor-pointer"
-          />
-        </div>
-      </div>
-
-      <div class="flex flex-wrap items-center justify-between pt-2 border-t border-slate-100 gap-2">
-        <button
-          id="reset-chairs"
-          type="button"
-          class="px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition"
-        >
-          🔄 Réinitialiser
-        </button>
-        <div id="chairs-summary" class="text-xs font-medium text-slate-600">
-          Chargement...
         </div>
       </div>
     </div>
 
-    <!-- Grille des visualisations -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Plot 1 : Rapport Prix vs Note des utilisateurs -->
-      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-        <h2 class="text-base font-semibold text-slate-800 mb-3 flex items-center justify-between">
-          <span>1. Rapport Prix vs Note client</span>
-          <span class="text-xs font-normal text-slate-500">Coloré par catégorie</span>
-        </h2>
-        <div id="plot-chairs-scatter" class="flex justify-center p-2 bg-slate-50 rounded-lg min-h-[360px] items-center overflow-x-auto"></div>
-      </div>
-
-      <!-- Plot 2 : Répartition des prix par marque -->
-      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-        <h2 class="text-base font-semibold text-slate-800 mb-3 flex items-center justify-between">
-          <span>2. Prix moyen par Marque</span>
-          <span class="text-xs font-normal text-slate-500">Barres horizontales</span>
-        </h2>
-        <div id="plot-chairs-brand" class="flex justify-center p-2 bg-slate-50 rounded-lg min-h-[360px] items-center overflow-x-auto"></div>
-      </div>
-
-      <!-- Plot 3 : Durée de garantie vs Capacité de charge -->
-      <div class="bg-white p-5 rounded-xl border border-slate-200 lg:col-span-2">
-        <h2 class="text-base font-semibold text-slate-800 mb-3 flex items-center justify-between">
-          <span>3. Durée de Garantie (ans) vs Capacité de Charge max (kg)</span>
-          <span class="text-xs font-normal text-slate-500">Taille proportionnelle au prix</span>
-        </h2>
-        <div id="plot-chairs-warranty" class="flex justify-center p-2 bg-slate-50 rounded-lg min-h-[320px] items-center overflow-x-auto"></div>
-      </div>
+    <!-- Graphique : Prix vs Note -->
+    <div class="card bg-white/90 border border-sky-100 shadow-xs rounded-2xl p-6 space-y-3">
+      <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+        Prix (€) vs Note Utilisateur (/5)
+      </h2>
+      <div id="plot-chairs" class="flex justify-center p-3 bg-sky-50/40 rounded-xl overflow-x-auto min-h-[340px] items-center"></div>
     </div>
   </div>
 </Layout>
@@ -136,143 +74,66 @@ import Layout from "../layouts/Layout.astro";
   import * as Plot from "@observablehq/plot";
   import chairs from "../assets/chairs.json";
 
-  const selectCat = document.querySelector("#filter-category") as HTMLSelectElement;
-  const selectMat = document.querySelector("#filter-material") as HTMLSelectElement;
-  const selectLumbar = document.querySelector("#filter-lumbar") as HTMLSelectElement;
-  const inputPrice = document.querySelector("#filter-maxprice") as HTMLInputElement;
-  const priceVal = document.querySelector("#price-val") as HTMLSpanElement;
-  const resetBtn = document.querySelector("#reset-chairs") as HTMLButtonElement;
-  const summaryDiv = document.querySelector("#chairs-summary") as HTMLDivElement;
+  const selectCat = document.querySelector("#select-category") as HTMLSelectElement;
+  const selectMat = document.querySelector("#select-material") as HTMLSelectElement;
+  const plotDiv = document.querySelector("#plot-chairs") as HTMLDivElement;
+  const counterDiv = document.querySelector("#chairs-counter") as HTMLDivElement;
 
-  const divScatter = document.querySelector("#plot-chairs-scatter") as HTMLDivElement;
-  const divBrand = document.querySelector("#plot-chairs-brand") as HTMLDivElement;
-  const divWarranty = document.querySelector("#plot-chairs-warranty") as HTMLDivElement;
-
-  function renderChairsPlots() {
-    const cat = selectCat.value;
-    const mat = selectMat.value;
-    const lumbar = selectLumbar.value;
-    const maxPrice = Number(inputPrice.value);
-
-    priceVal.textContent = `${maxPrice} €`;
+  function renderPlot() {
+    const category = selectCat.value;
+    const material = selectMat.value;
 
     const filtered = chairs.filter((c) => {
-      if (cat && c.category !== cat) return false;
-      if (mat && c.material !== mat) return false;
-      if (lumbar && c.lumbar_support !== lumbar) return false;
-      if (c.price > maxPrice) return false;
+      if (category && c.category !== category) return false;
+      if (material && c.material !== material) return false;
       return true;
     });
 
-    const count = filtered.length;
-    const avgPrice = count > 0 ? Math.round(filtered.reduce((acc, c) => acc + c.price, 0) / count) : 0;
-    const avgRating = count > 0 ? (filtered.reduce((acc, c) => acc + c.rating, 0) / count).toFixed(1) : "0.0";
+    if (counterDiv) {
+      counterDiv.textContent = `${filtered.length} chaises affichees sur ${chairs.length}`;
+    }
 
-    summaryDiv.innerHTML = `
-      <span class="font-bold text-indigo-700">${count}</span> chaises trouvées sur ${chairs.length} 
-      • Prix moyen : <span class="font-bold text-slate-800">${avgPrice} €</span> 
-      • Note moyenne : <span class="font-bold text-amber-600">★ ${avgRating} / 5</span>
-    `;
+    if (plotDiv) {
+      plotDiv.innerHTML = "";
 
-    // 1. Nuage de points Prix vs Note
-    if (divScatter) {
-      divScatter.innerHTML = "";
       if (filtered.length === 0) {
-        divScatter.innerHTML = `<p class="text-sm text-slate-400">Aucune chaise ne correspond aux critères.</p>`;
-      } else {
-        const plot1 = Plot.plot({
-          grid: true,
-          color: { legend: true },
-          x: { label: "Prix (€) →", domain: [100, 1800] },
-          y: { label: "↑ Note client (/5)", domain: [3.5, 5.0] },
-          marks: [
-            Plot.dot(filtered, {
-              x: "price",
-              y: "rating",
-              stroke: "category",
-              fill: "category",
-              fillOpacity: 0.3,
-              r: 6,
-              title: (d) => `${d.model}\nMarque: ${d.brand}\nPrix: ${d.price} €\nNote: ${d.rating}/5\nSupport: ${d.lumbar_support}`,
-              tip: true,
-            }),
-          ],
-        });
-        divScatter.append(plot1);
+        plotDiv.innerHTML = `<p class="text-sm text-slate-400">Aucun resultat trouve.</p>`;
+        return;
       }
-    }
 
-    // 2. Prix par marque (Barres horizontales)
-    if (divBrand) {
-      divBrand.innerHTML = "";
-      if (filtered.length > 0) {
-        const plot2 = Plot.plot({
-          grid: true,
-          marginLeft: 120,
-          x: { label: "Prix (€) →" },
-          y: { label: null },
-          color: { legend: false },
-          marks: [
-            Plot.barX(
-              filtered,
-              Plot.groupY(
-                { x: "mean" },
-                {
-                  y: "brand",
-                  x: "price",
-                  fill: "category",
-                  sort: { y: "x", reverse: true },
-                  tip: true,
-                }
-              )
-            ),
-            Plot.ruleX([0]),
-          ],
-        });
-        divBrand.append(plot2);
-      } else {
-        divBrand.innerHTML = `<p class="text-sm text-slate-400">Aucune donnée disponible.</p>`;
-      }
-    }
+      const plot = Plot.plot({
+        grid: true,
+        color: {
+          legend: true,
+          scheme: "Observable10",
+        },
+        x: {
+          label: "Prix (€) ->",
+          domain: [100, 1800],
+        },
+        y: {
+          label: "^ Note client (/5)",
+          domain: [3.5, 5.0],
+        },
+        marks: [
+          Plot.dot(filtered, {
+            x: "price",
+            y: "rating",
+            stroke: "category",
+            fill: "category",
+            fillOpacity: 0.35,
+            r: 7,
+            tip: true,
+          }),
+        ],
+      });
 
-    // 3. Garantie vs Capacité de charge
-    if (divWarranty) {
-      divWarranty.innerHTML = "";
-      if (filtered.length > 0) {
-        const plot3 = Plot.plot({
-          grid: true,
-          x: { label: "Durée de garantie (années) →", domain: [0, 16] },
-          y: { label: "↑ Capacité de charge max (kg)", domain: [100, 200] },
-          color: { legend: true },
-          marks: [
-            Plot.dot(filtered, {
-              x: "warranty_years",
-              y: "weight_capacity_kg",
-              stroke: "material",
-              r: (d) => Math.sqrt(d.price) * 0.45,
-              title: (d) => `${d.model} (${d.brand})\nPrix: ${d.price} €\nGarantie: ${d.warranty_years} ans\nCharge max: ${d.weight_capacity_kg} kg`,
-              tip: true,
-            }),
-          ],
-        });
-        divWarranty.append(plot3);
-      }
+      plotDiv.append(plot);
     }
   }
 
-  [selectCat, selectMat, selectLumbar, inputPrice].forEach((el) => {
-    el.addEventListener("input", renderChairsPlots);
-    el.addEventListener("change", renderChairsPlots);
-  });
+  selectCat.addEventListener("change", renderPlot);
+  selectMat.addEventListener("change", renderPlot);
 
-  resetBtn.addEventListener("click", () => {
-    selectCat.value = "";
-    selectMat.value = "";
-    selectLumbar.value = "";
-    inputPrice.value = "1800";
-    renderChairsPlots();
-  });
-
-  renderChairsPlots();
+  renderPlot();
 </script>
-

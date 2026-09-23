@@ -1,51 +1,44 @@
----
+﻿---
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Étape 1 - Simple Graphique">
-  <div class="space-y-6">
-    <div class="border-b border-slate-200 pb-4">
-      <h1 class="text-3xl font-bold text-slate-800">Étape 1 : Graphique Simple (Client-side)</h1>
-      <p class="text-slate-600 mt-1">
-        Exemple de base inspiré de <em>Plot in vanilla HTML</em> rendu dynamiquement côté client avec Observable Plot.
+<Layout title="1. Simple • TP4">
+  <div class="space-y-6 max-w-5xl mx-auto">
+    <div class="bg-white/80 backdrop-blur-sm border border-sky-100 p-6 rounded-2xl shadow-xs">
+      <div class="inline-block px-2.5 py-0.5 bg-sky-100 text-sky-800 text-xs font-semibold rounded-md mb-1 border border-sky-200">
+        Etape 1
+      </div>
+      <h1 class="text-2xl font-bold text-slate-800">Graphique Simple Cote Client</h1>
+      <p class="text-xs sm:text-sm text-slate-500 mt-1">
+        Exemple officiel Observable Plot rendu dynamiquement dans le navigateur a l'aide d'un script client.
       </p>
     </div>
 
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-      <h2 class="text-lg font-semibold text-slate-700 mb-4">Graphique généré côté navigateur :</h2>
-      <div id="myplot" class="flex justify-center p-4 bg-slate-50 rounded-lg overflow-x-auto min-h-[300px] items-center"></div>
-    </div>
-
-    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg text-sm text-blue-900 space-y-1">
-      <p class="font-semibold">💡 Points techniques mis en œuvre :</p>
-      <ul class="list-disc list-inside space-y-1">
-        <li>Exécution du script 100% côté client via la balise <code>&lt;script&gt;</code> Astro.</li>
-        <li>Import direct de la dépendance npm : <code>import * as Plot from "@observablehq/plot";</code> (Astro gère le bundling automatiquement).</li>
-        <li>Injection du SVG généré directement dans le DOM avec <code>div.append(plot)</code>.</li>
-      </ul>
+    <div class="card bg-white/90 border border-sky-100 shadow-xs rounded-2xl p-6 space-y-3">
+      <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+        Histogramme de distribution aleatoire
+      </h2>
+      <div id="myplot" class="flex justify-center p-4 bg-sky-50/40 rounded-xl overflow-x-auto min-h-[300px] items-center"></div>
     </div>
   </div>
 </Layout>
 
 <script>
-  // Importation de la bibliothèque Observable Plot via npm
   import * as Plot from "@observablehq/plot";
 
-  // Création du graphique simple (exemple officiel Observable Plot)
   const plot = Plot.rectY(
     { length: 10000 },
     Plot.binX({ y: "count" }, { x: Math.random })
   ).plot({
-    title: "Distribution aléatoire (10 000 tirages)",
-    x: { label: "Valeur aléatoire (Math.random)" },
-    y: { label: "Fréquence / Décompte", grid: true },
+    title: "Distribution aleatoire (10 000 tirages)",
+    x: { label: "Valeur (0 a 1) ->" },
+    y: { label: "^ Frequence", grid: true },
     marks: [
       Plot.ruleY([0])
     ]
   });
 
-  // Sélection du conteneur et ajout du graphique au DOM
   const div = document.querySelector("#myplot");
   div?.append(plot);
 </script>
-

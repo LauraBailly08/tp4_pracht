@@ -1,27 +1,35 @@
----
+﻿---
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Étape 6 - Dataset Consoles & Jeux Nintendo 3DS">
-  <div class="space-y-6">
-    <div class="border-b border-slate-200 pb-4">
-      <h1 class="text-3xl font-bold text-slate-800">Étape 6 : Dataset Consoles & Jeux Nintendo 3DS</h1>
-      <p class="text-slate-600 mt-1">
-        Analyses statistiques et graphiques des ventes mondiales, notes Metacritic et genres de jeux phares sur l'écosystème Nintendo 3DS.
-      </p>
+<Layout title="Consoles & Jeux 3DS • TP4">
+  <div class="space-y-6 max-w-5xl mx-auto">
+    <!-- En-tete de la page -->
+    <div class="bg-white/80 backdrop-blur-sm border border-pink-100 p-6 rounded-2xl shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="inline-block px-2.5 py-0.5 bg-pink-100/70 text-rose-800 text-xs font-semibold rounded-md mb-1 border border-pink-200">
+          Dataset 2 • Jeux Video
+        </div>
+        <h1 class="text-2xl font-bold text-slate-800">Nintendo 3DS</h1>
+        <p class="text-xs sm:text-sm text-slate-500">
+          Visualisation des ventes mondiales et scores Metacritic des jeux phares.
+        </p>
+      </div>
+      <div id="games-counter" class="badge badge-soft bg-sky-100 text-sky-800 border-sky-200 text-xs font-medium px-3 py-2">
+        Chargement...
+      </div>
     </div>
 
-    <!-- Filtres Interactifs -->
-    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Filtre Genre -->
+    <!-- Controles simples DaisyUI -->
+    <div class="card bg-white/90 border border-pink-100 shadow-xs rounded-2xl p-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label for="filter-genre" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
-            Genre
+          <label for="select-genre" class="block text-xs font-semibold text-slate-600 mb-1.5">
+            Filtrer par Genre :
           </label>
           <select
-            id="filter-genre"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            id="select-genre"
+            class="select select-bordered select-sm w-full bg-white border-pink-200 focus:border-sky-400 focus:outline-none rounded-xl"
           >
             <option value="">Tous les genres</option>
             <option value="RPG">RPG</option>
@@ -33,16 +41,15 @@ import Layout from "../layouts/Layout.astro";
           </select>
         </div>
 
-        <!-- Filtre Éditeur -->
         <div>
-          <label for="filter-publisher" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
-            Éditeur
+          <label for="select-publisher" class="block text-xs font-semibold text-slate-600 mb-1.5">
+            Filtrer par Editeur :
           </label>
           <select
-            id="filter-publisher"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            id="select-publisher"
+            class="select select-bordered select-sm w-full bg-white border-pink-200 focus:border-sky-400 focus:outline-none rounded-xl"
           >
-            <option value="">Tous les éditeurs</option>
+            <option value="">Tous les editeurs</option>
             <option value="Nintendo">Nintendo</option>
             <option value="Capcom">Capcom</option>
             <option value="Square Enix">Square Enix</option>
@@ -51,89 +58,16 @@ import Layout from "../layouts/Layout.astro";
             <option value="Sega">Sega</option>
           </select>
         </div>
-
-        <!-- Filtre Année de sortie -->
-        <div>
-          <label for="filter-year" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
-            Année de sortie
-          </label>
-          <select
-            id="filter-year"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-          >
-            <option value="">Toutes les années (2011-2017)</option>
-            <option value="2011">2011</option>
-            <option value="2012">2012</option>
-            <option value="2013">2013</option>
-            <option value="2014">2014</option>
-            <option value="2015">2015</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-          </select>
-        </div>
-
-        <!-- Filtre Note Metacritic minimale -->
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <label for="filter-minscore" class="text-xs font-semibold uppercase tracking-wider text-slate-600">
-              Note Metacritic min :
-            </label>
-            <span id="score-val" class="text-xs font-bold text-indigo-700">65 / 100</span>
-          </div>
-          <input
-            type="range"
-            id="filter-minscore"
-            min="65"
-            max="95"
-            step="1"
-            value="65"
-            class="w-full accent-indigo-600 cursor-pointer"
-          />
-        </div>
-      </div>
-
-      <div class="flex flex-wrap items-center justify-between pt-2 border-t border-slate-100 gap-2">
-        <button
-          id="reset-games"
-          type="button"
-          class="px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition"
-        >
-          🔄 Réinitialiser les filtres
-        </button>
-        <div id="games-summary" class="text-xs font-medium text-slate-600">
-          Chargement...
-        </div>
       </div>
     </div>
 
-    <!-- Grille des graphiques -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Plot 1 : Ventes vs Metacritic -->
-      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-        <h2 class="text-base font-semibold text-slate-800 mb-3 flex items-center justify-between">
-          <span>1. Ventes mondiales (Millions) vs Score Metacritic</span>
-          <span class="text-xs font-normal text-slate-500">Couleur : Genre</span>
-        </h2>
-        <div id="plot-games-scatter" class="flex justify-center p-2 bg-slate-50 rounded-lg min-h-[360px] items-center overflow-x-auto"></div>
-      </div>
-
-      <!-- Plot 2 : Ventes totales cumulées par Éditeur -->
-      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
-        <h2 class="text-base font-semibold text-slate-800 mb-3 flex items-center justify-between">
-          <span>2. Ventes totales cumulées par Éditeur (M d'unités)</span>
-          <span class="text-xs font-normal text-slate-500">Barres horizontales</span>
-        </h2>
-        <div id="plot-games-publishers" class="flex justify-center p-2 bg-slate-50 rounded-lg min-h-[360px] items-center overflow-x-auto"></div>
-      </div>
-
-      <!-- Plot 3 : Ventes mondiales par Année et par Genre -->
-      <div class="bg-white p-5 rounded-xl border border-slate-200 lg:col-span-2">
-        <h2 class="text-base font-semibold text-slate-800 mb-3 flex items-center justify-between">
-          <span>3. Volume de Ventes par Année de sortie et Genre (M d'unités)</span>
-          <span class="text-xs font-normal text-slate-500">Histogramme empilé</span>
-        </h2>
-        <div id="plot-games-timeline" class="flex justify-center p-2 bg-slate-50 rounded-lg min-h-[320px] items-center overflow-x-auto"></div>
-      </div>
+    <!-- Graphique : Ventes vs Score Metacritic -->
+    <div class="card bg-white/90 border border-pink-100 shadow-xs rounded-2xl p-6 space-y-3">
+      <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+        Ventes Mondiales (Millions) vs Score Metacritic (/100)
+      </h2>
+      <div id="plot-games" class="flex justify-center p-3 bg-pink-50/30 rounded-xl overflow-x-auto min-h-[340px] items-center"></div>
     </div>
   </div>
 </Layout>
@@ -142,148 +76,64 @@ import Layout from "../layouts/Layout.astro";
   import * as Plot from "@observablehq/plot";
   import games from "../assets/games_3ds.json";
 
-  const selectGenre = document.querySelector("#filter-genre") as HTMLSelectElement;
-  const selectPublisher = document.querySelector("#filter-publisher") as HTMLSelectElement;
-  const selectYear = document.querySelector("#filter-year") as HTMLSelectElement;
-  const inputMinScore = document.querySelector("#filter-minscore") as HTMLInputElement;
-  const scoreVal = document.querySelector("#score-val") as HTMLSpanElement;
-  const resetBtn = document.querySelector("#reset-games") as HTMLButtonElement;
-  const summaryDiv = document.querySelector("#games-summary") as HTMLDivElement;
+  const selectGenre = document.querySelector("#select-genre") as HTMLSelectElement;
+  const selectPublisher = document.querySelector("#select-publisher") as HTMLSelectElement;
+  const plotDiv = document.querySelector("#plot-games") as HTMLDivElement;
+  const counterDiv = document.querySelector("#games-counter") as HTMLDivElement;
 
-  const divScatter = document.querySelector("#plot-games-scatter") as HTMLDivElement;
-  const divPublishers = document.querySelector("#plot-games-publishers") as HTMLDivElement;
-  const divTimeline = document.querySelector("#plot-games-timeline") as HTMLDivElement;
-
-  function renderGamesPlots() {
+  function renderPlot() {
     const genre = selectGenre.value;
     const publisher = selectPublisher.value;
-    const year = selectYear.value;
-    const minScore = Number(inputMinScore.value);
-
-    scoreVal.textContent = `${minScore} / 100`;
 
     const filtered = games.filter((g) => {
       if (genre && g.genre !== genre) return false;
       if (publisher && g.publisher !== publisher) return false;
-      if (year && g.release_year.toString() !== year) return false;
-      if (g.metacritic_score < minScore) return false;
       return true;
     });
 
-    const count = filtered.length;
-    const totalSales = filtered.reduce((acc, g) => acc + g.global_sales_million, 0).toFixed(2);
-    const avgScore = count > 0 ? Math.round(filtered.reduce((acc, g) => acc + g.metacritic_score, 0) / count) : 0;
+    if (counterDiv) {
+      counterDiv.textContent = `${filtered.length} jeux affiches sur ${games.length}`;
+    }
 
-    summaryDiv.innerHTML = `
-      <span class="font-bold text-indigo-700">${count}</span> jeux filtrés sur ${games.length} 
-      • Ventes totales : <span class="font-bold text-slate-800">${totalSales} M d'unités</span> 
-      • Metacritic moy. : <span class="font-bold text-emerald-600">${avgScore}/100</span>
-    `;
+    if (plotDiv) {
+      plotDiv.innerHTML = "";
 
-    // 1. Scatter Plot : Ventes vs Metacritic
-    if (divScatter) {
-      divScatter.innerHTML = "";
       if (filtered.length === 0) {
-        divScatter.innerHTML = `<p class="text-sm text-slate-400">Aucun jeu ne correspond aux critères.</p>`;
-      } else {
-        const plot1 = Plot.plot({
-          grid: true,
-          color: { legend: true },
-          x: { label: "Score Metacritic (/100) →", domain: [60, 100] },
-          y: { label: "↑ Ventes mondiales (Millions d'exemplaires)" },
-          marks: [
-            Plot.dot(filtered, {
-              x: "metacritic_score",
-              y: "global_sales_million",
-              stroke: "genre",
-              fill: "genre",
-              fillOpacity: 0.35,
-              r: (d) => d.user_score * 0.9,
-              title: (d) => `${d.title}\nGenre: ${d.genre}\nÉditeur: ${d.publisher} (${d.release_year})\nVentes: ${d.global_sales_million}M\nMetacritic: ${d.metacritic_score}/100\nJoueurs: ${d.user_score}/10`,
-              tip: true,
-            }),
-          ],
-        });
-        divScatter.append(plot1);
+        plotDiv.innerHTML = `<p class="text-sm text-slate-400">Aucun jeu ne correspond aux criteres.</p>`;
+        return;
       }
-    }
 
-    // 2. Ventes cumulées par Éditeur
-    if (divPublishers) {
-      divPublishers.innerHTML = "";
-      if (filtered.length > 0) {
-        const plot2 = Plot.plot({
-          grid: true,
-          marginLeft: 90,
-          x: { label: "Ventes totales (Millions) →" },
-          y: { label: null },
-          color: { legend: false },
-          marks: [
-            Plot.barX(
-              filtered,
-              Plot.groupY(
-                { x: "sum" },
-                {
-                  y: "publisher",
-                  x: "global_sales_million",
-                  fill: "publisher",
-                  sort: { y: "x", reverse: true },
-                  tip: true,
-                }
-              )
-            ),
-            Plot.ruleX([0]),
-          ],
-        });
-        divPublishers.append(plot2);
-      } else {
-        divPublishers.innerHTML = `<p class="text-sm text-slate-400">Aucune donnée disponible.</p>`;
-      }
-    }
+      const plot = Plot.plot({
+        grid: true,
+        color: {
+          legend: true,
+        },
+        x: {
+          label: "Score Metacritic (/100) ->",
+          domain: [65, 96],
+        },
+        y: {
+          label: "^ Ventes mondiales (Millions)",
+        },
+        marks: [
+          Plot.dot(filtered, {
+            x: "metacritic_score",
+            y: "global_sales_million",
+            stroke: "genre",
+            fill: "genre",
+            fillOpacity: 0.4,
+            r: 7,
+            tip: true,
+          }),
+        ],
+      });
 
-    // 3. Ventes par Année et Genre
-    if (divTimeline) {
-      divTimeline.innerHTML = "";
-      if (filtered.length > 0) {
-        const plot3 = Plot.plot({
-          grid: true,
-          x: { label: "Année de sortie", tickFormat: "" },
-          y: { label: "Ventes mondiales cumulées (M)" },
-          color: { legend: true },
-          marks: [
-            Plot.rectY(
-              filtered,
-              Plot.groupX(
-                { y: "sum" },
-                {
-                  x: "release_year",
-                  y: "global_sales_million",
-                  fill: "genre",
-                  tip: true,
-                }
-              )
-            ),
-            Plot.ruleY([0]),
-          ],
-        });
-        divTimeline.append(plot3);
-      }
+      plotDiv.append(plot);
     }
   }
 
-  [selectGenre, selectPublisher, selectYear, inputMinScore].forEach((el) => {
-    el.addEventListener("input", renderGamesPlots);
-    el.addEventListener("change", renderGamesPlots);
-  });
+  selectGenre.addEventListener("change", renderPlot);
+  selectPublisher.addEventListener("change", renderPlot);
 
-  resetBtn.addEventListener("click", () => {
-    selectGenre.value = "";
-    selectPublisher.value = "";
-    selectYear.value = "";
-    inputMinScore.value = "65";
-    renderGamesPlots();
-  });
-
-  renderGamesPlots();
+  renderPlot();
 </script>
-
