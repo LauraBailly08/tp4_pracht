@@ -1,0 +1,295 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Étape 4 - Manchots Multi-Filtres & Multi-Séries">
+  <div class="space-y-6">
+    <div class="border-b border-slate-200 pb-4">
+      <h1 class="text-3xl font-bold text-slate-800">Étape 4 : Manchots — Multi-Filtres & Multi-Séries</h1>
+      <p class="text-slate-600 mt-1">
+        Exploration avancée du dataset Palmer Penguins : filtres croisés multiples (espèce, île, sexe), sélection d'axes, et vues graphiques multiples (nuage de points, facettes et histogrammes comparatifs).
+      </p>
+    </div>
+
+    <!-- Panneau de Contrôles & Filtres -->
+    <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Filtre Espèce -->
+        <div>
+          <label for="species" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+            Espèce
+          </label>
+          <select
+            name="species"
+            id="species"
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="">Toutes les espèces (All)</option>
+            <option value="Adelie">Adelie</option>
+            <option value="Chinstrap">Chinstrap</option>
+            <option value="Gentoo">Gentoo</option>
+          </select>
+        </div>
+
+        <!-- Filtre Île -->
+        <div>
+          <label for="island" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+            Île (Island)
+          </label>
+          <select
+            name="island"
+            id="island"
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="">Toutes les îles (All)</option>
+            <option value="Biscoe">Biscoe</option>
+            <option value="Dream">Dream</option>
+            <option value="Torgersen">Torgersen</option>
+          </select>
+        </div>
+
+        <!-- Filtre Sexe -->
+        <div>
+          <label for="sex" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+            Sexe
+          </label>
+          <select
+            name="sex"
+            id="sex"
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="">Tous les sexes (All)</option>
+            <option value="MALE">Mâle (MALE)</option>
+            <option value="FEMALE">Femelle (FEMALE)</option>
+          </select>
+        </div>
+
+        <!-- Choix métrique Axe X -->
+        <div>
+          <label for="xMetric" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+            Métrique Axe X
+          </label>
+          <select
+            name="xMetric"
+            id="xMetric"
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm bg-white text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value="culmen_length_mm">Longueur bec (culmen_length_mm)</option>
+            <option value="flipper_length_mm">Longueur nageoire (flipper_length_mm)</option>
+            <option value="body_mass_g">Masse corporelle (body_mass_g)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between pt-2 border-t border-slate-100 gap-2">
+        <div class="flex items-center gap-2">
+          <button
+            id="reset-btn"
+            type="button"
+            class="px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition"
+          >
+            🔄 Réinitialiser les filtres
+          </button>
+        </div>
+        <div id="stats-summary" class="text-xs font-medium text-slate-600">
+          Chargement des données...
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille des graphiques (Multi-séries & Facettes) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Graphique 1 : Nuage de points principal -->
+      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+        <h2 class="text-base font-semibold text-slate-800 mb-3 flex items-center justify-between">
+          <span>1. Nuage de points interactif (Selon filtres)</span>
+          <span class="text-xs font-normal text-slate-500">Coloré par espèce</span>
+        </h2>
+        <div id="plot-main" class="flex justify-center p-2 bg-slate-50 rounded-lg min-h-[360px] items-center overflow-x-auto"></div>
+      </div>
+
+      <!-- Graphique 2 : Vue par séries / Facettes (Selon l'Île) -->
+      <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+        <h2 class="text-base font-semibold text-slate-800 mb-3 flex items-center justify-between">
+          <span>2. Séries à Facettes par Île (Biscoe, Dream, Torgersen)</span>
+          <span class="text-xs font-normal text-slate-500">Comparaison géographique</span>
+        </h2>
+        <div id="plot-faceted" class="flex justify-center p-2 bg-slate-50 rounded-lg min-h-[360px] items-center overflow-x-auto"></div>
+      </div>
+
+      <!-- Graphique 3 : Distribution de la masse corporelle -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 lg:col-span-2">
+        <h2 class="text-base font-semibold text-slate-800 mb-3 flex items-center justify-between">
+          <span>3. Distribution de la Masse Corporelle (Boxplot / Barres empilées par espèce et sexe)</span>
+          <span class="text-xs font-normal text-slate-500">Analyse statistique</span>
+        </h2>
+        <div id="plot-distribution" class="flex justify-center p-2 bg-slate-50 rounded-lg min-h-[300px] items-center overflow-x-auto"></div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  import * as Plot from "@observablehq/plot";
+  import penguins from "../assets/penguins.json";
+
+  // Récupération des éléments du DOM
+  const selectSpecies = document.querySelector("#species") as HTMLSelectElement;
+  const selectIsland = document.querySelector("#island") as HTMLSelectElement;
+  const selectSex = document.querySelector("#sex") as HTMLSelectElement;
+  const selectXMetric = document.querySelector("#xMetric") as HTMLSelectElement;
+  const resetBtn = document.querySelector("#reset-btn") as HTMLButtonElement;
+  const statsSummary = document.querySelector("#stats-summary") as HTMLDivElement;
+
+  const divMain = document.querySelector("#plot-main") as HTMLDivElement;
+  const divFaceted = document.querySelector("#plot-faceted") as HTMLDivElement;
+  const divDistribution = document.querySelector("#plot-distribution") as HTMLDivElement;
+
+  // Libellés conviviaux pour les axes
+  const metricLabels: Record<string, string> = {
+    culmen_length_mm: "Longueur du bec (mm)",
+    culmen_depth_mm: "Profondeur du bec (mm)",
+    flipper_length_mm: "Longueur des nageoires (mm)",
+    body_mass_g: "Masse corporelle (g)",
+  };
+
+  function updateVisualizations() {
+    const speciesVal = selectSpecies.value;
+    const islandVal = selectIsland.value;
+    const sexVal = selectSex.value;
+    const xKey = selectXMetric.value;
+
+    // Filtrage combiné sur l'ensemble des critères
+    const filtered = penguins.filter((item) => {
+      if (speciesVal && item.species !== speciesVal) return false;
+      if (islandVal && item.island !== islandVal) return false;
+      if (sexVal && item.sex !== sexVal) return false;
+      return true;
+    });
+
+    // Calcul de statistiques récapitulatives
+    const count = filtered.length;
+    const validMasses = filtered.map((p) => p.body_mass_g).filter(Boolean) as number[];
+    const avgMass =
+      validMasses.length > 0
+        ? Math.round(validMasses.reduce((acc, m) => acc + m, 0) / validMasses.length)
+        : 0;
+
+    statsSummary.innerHTML = `
+      <span class="font-bold text-indigo-700">${count}</span> manchots filtrés sur ${penguins.length} 
+      • Masse moy. : <span class="font-bold text-slate-800">${avgMass ? avgMass + " g" : "N/A"}</span>
+    `;
+
+    // 1. Graphique Principal : Nuage de points
+    if (divMain) {
+      divMain.innerHTML = "";
+      const plotMain = Plot.plot({
+        grid: true,
+        color: {
+          legend: true,
+          domain: ["Adelie", "Chinstrap", "Gentoo"],
+        },
+        x: {
+          label: `${metricLabels[xKey] || xKey} →`,
+        },
+        y: {
+          label: "↑ Profondeur du bec (mm)",
+        },
+        marks: [
+          Plot.dot(filtered, {
+            x: xKey,
+            y: "culmen_depth_mm",
+            stroke: "species",
+            symbol: "sex",
+            tip: true,
+          }),
+        ],
+      });
+      divMain.append(plotMain);
+    }
+
+    // 2. Graphique à Facettes géographiques (par Île)
+    if (divFaceted) {
+      divFaceted.innerHTML = "";
+      const plotFaceted = Plot.plot({
+        grid: true,
+        color: {
+          legend: false,
+          domain: ["Adelie", "Chinstrap", "Gentoo"],
+        },
+        fx: {
+          label: "Île",
+        },
+        x: {
+          label: `${metricLabels[xKey] || xKey}`,
+        },
+        y: {
+          label: "Profondeur bec (mm)",
+        },
+        marks: [
+          Plot.frame(),
+          Plot.dot(filtered, {
+            fx: "island",
+            x: xKey,
+            y: "culmen_depth_mm",
+            stroke: "species",
+            tip: true,
+          }),
+        ],
+      });
+      divFaceted.append(plotFaceted);
+    }
+
+    // 3. Graphique de Distribution : Histogramme / Barres empilées par masse corporelle
+    if (divDistribution) {
+      divDistribution.innerHTML = "";
+      const plotDist = Plot.plot({
+        grid: true,
+        color: {
+          legend: true,
+          domain: ["Adelie", "Chinstrap", "Gentoo"],
+        },
+        x: {
+          label: "Masse corporelle (g) par tranches",
+        },
+        y: {
+          label: "Nombre d'individus",
+        },
+        marks: [
+          Plot.rectY(
+            filtered,
+            Plot.binX(
+              { y: "count" },
+              {
+                x: "body_mass_g",
+                fill: "species",
+                thresholds: 20,
+                tip: true,
+              }
+            )
+          ),
+          Plot.ruleY([0]),
+        ],
+      });
+      divDistribution.append(plotDist);
+    }
+  }
+
+  // Écouteurs sur les sélecteurs
+  [selectSpecies, selectIsland, selectSex, selectXMetric].forEach((select) => {
+    select.addEventListener("change", updateVisualizations);
+  });
+
+  // Bouton de réinitialisation
+  resetBtn?.addEventListener("click", () => {
+    selectSpecies.value = "";
+    selectIsland.value = "";
+    selectSex.value = "";
+    selectXMetric.value = "culmen_length_mm";
+    updateVisualizations();
+  });
+
+  // Rendu initial
+  updateVisualizations();
+</script>
+
